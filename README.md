@@ -157,9 +157,9 @@ For information about available routes and their requirements, check the [relate
 
 ```bash
 Users Table Successfully Created
-Users Successfully Populated
+Users Table Successfully Populated
 Courses Table Successfully Created
-Courses Successfully Populated
+Courses Table Successfully Populated
 ```
 
 - If the app is not running for the first time (tables already exist), you'll see:

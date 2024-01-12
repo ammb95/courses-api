@@ -116,7 +116,7 @@ export class DBManager {
       });
 
       await this.dbClient.send(command);
-      console.log(`${tableName} Successfully Populated`);
+      console.log(`${tableName} Table Successfully Populated`);
     } catch (error) {
       throw new DatabaseError({
         message: `Error populating table ${tableName}`,
