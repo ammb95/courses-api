@@ -1,5 +1,5 @@
 {
-  "name": "ef-test",
+  "name": "courses-api",
   "version": "1.0.0",
   "description": "1. AWS CLI",
   "main": "index.js",

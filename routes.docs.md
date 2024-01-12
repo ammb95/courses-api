@@ -13,8 +13,8 @@
   - `roles` (array of strings, required): The roles assigned to the user. Should be one or more of the following: "administrator," "manager," "consultant."
   - `department` (string, required): The department of the user. Should be one of the following: "sales," "marketing," "accounting."
 - **Request Example:**
+
   ```json
-  "headers": { "Authorization": "Bearer exampleAuthToken" }
   "body": {
     "username": "newUser",
     "password": "newUserPassword",
@@ -22,9 +22,12 @@
     "department": "sales"
   }
   ```
+
 - **Response:**
+
   - Status Code: `201 Created`
   - Response Body:
+
     ```json
     {
       "user": {
@@ -36,6 +39,7 @@
       }
     }
     ```
+
 - **Errors:**
   - `409 Conflict`: If the username is already taken.
   - `422 Unprocessable Entity`: If the request body is invalid.
@@ -53,20 +57,29 @@
   - `username` (string, required): The username of the user.
   - `password` (string, required): The password of the user.
 - **Request Example:**
+
+  ```http
+  POST /auth/login
+  ```
+
   ```json
-  body: {
+  "body": {
     "username": "exampleUser",
     "password": "examplePassword"
   }
   ```
+
 - **Response:**
+
   - Status Code: `200 OK`
   - Response Body:
+
     ```json
     {
       "token": "exampleAuthToken"
     }
     ```
+
 - **Errors:**
   - `401 Unauthorized`: If the provided credentials are incorrect.
   - `422 Unprocessable Entity`: If the request body is invalid.
@@ -79,12 +92,15 @@
 - **Authorization Header:**
   - `Authorization` (string, required): The authentication token obtained during login.
 - **Request Example:**
+
   ```http
   DELETE /auth/logout
   ```
+
   ```json
   "headers": { "Authorization": "Bearer exampleAuthToken" }
   ```
+
 - **Response:**
   - Status Code: `204 No Content`
 - **Errors:**
@@ -104,15 +120,20 @@
   - Requires the user to have the roles "administrator" or "manager."
   - Requires the user to be in the department "marketing."
 - **Request Example:**
+
   ```http
   GET /courses
   ```
+
   ```json
   "headers": { "Authorization": "Bearer exampleAuthToken" }
   ```
+
 - **Response:**
+
   - Status Code: `200 OK`
   - Response Body:
+
     ```json
     {
       "courses": [
@@ -128,6 +149,7 @@
       ]
     }
     ```
+
 - **Errors:**
   - `401 Unauthorized`: If the user is not authenticated.
   - `403 Forbidden`: If the user lacks the required roles/permissions.
@@ -154,8 +176,10 @@
   ```
 
 - **Response:**
+
   - Status Code: `200 OK`
   - Response Body:
+
     ```json
     {
       "course": {
@@ -168,6 +192,7 @@
       }
     }
     ```
+
 - **Errors:**
   - `401 Unauthorized`: If the user is not authenticated.
   - `403 Forbidden`: If the user lacks the required roles/permissions.
@@ -206,8 +231,10 @@
   ```
 
 - **Response:**
+
   - Status Code: `201 Created`
   - Response Body:
+
     ```json
     {
       "course": {
@@ -220,6 +247,7 @@
       }
     }
     ```
+
 - **Errors:**
   - `401 Unauthorized`: If the user is not authenticated.
   - `403 Forbidden`: If the user lacks the required roles/permissions.
@@ -243,9 +271,11 @@
   - `bestseller` (boolean, optional): Indicates if the course is a bestseller.
   - `startDate` (string, optional): The updated start date of the course in ISO date format.
 - **Request Example:**
+
   ```http
   PATCH /courses/${courseId}
   ```
+
   ```json
   "headers": { "Authorization": "Bearer exampleAuthToken" }
   "body": {
@@ -254,9 +284,12 @@
     "bestseller": false
   }
   ```
+
 - **Response:**
+
   - Status Code: `200 OK`
   - Response Body:
+
     ```json
     {
       "course": {
@@ -269,6 +302,7 @@
       }
     }
     ```
+
 - **Errors:**
   - `401 Unauthorized`: If the user is not authenticated.
   - `403 Forbidden`: If the user lacks the required roles/permissions.
@@ -287,12 +321,15 @@
 - **Path Params:**
   - `id` (string, required): The ID of the course to be deleted.
 - **Request Example:**
+
   ```http
-  PATCH /courses/${courseId}
+  DELETE /courses/${courseId}
   ```
+
   ```json
   "headers": { "Authorization": "Bearer exampleAuthToken" }
   ```
+
 - **Response:**
   - Status Code: `204 No Content`
 - **Errors:**
