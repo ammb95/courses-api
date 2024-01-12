@@ -56,7 +56,7 @@ export const initApp = async (app: Express) => {
   app.use(errorHandler.handleErrorMiddleware);
 
   const port = APP_PORT || APP_DEFAULT_PORT;
-  app.listen(APP_PORT, () => {
-    console.log(`Server is running on http://localhost:${APP_PORT}\n`);
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}\n`);
   });
 };

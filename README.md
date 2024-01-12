@@ -45,6 +45,7 @@ This `.env` file will be used when running the Node app in standalone mode. Some
 
 ```bash
 $ npm run start       # Runs the app in standalone mode
+$ npm run start:npx   # Runs the app in standalone mode using npx to fetch ts-node
 $ npm run dev         # Runs the standalone app in watch mode
 $ npm run db          # Runs the database image alone
 $ npm run compose     # Runs both the app and the database through Docker
@@ -79,21 +80,25 @@ The app will be available at `localhost:3000`.
 
 ### Standalone
 
-1. Install dependencies:
+#### 1. Install dependencies:
 
 ```bash
 $ npm install
 ```
 
-2. Run the database:
+#### 2. Run the database:
 
 ```bash
 $ npm run db
 ```
 
-Wait for it to be up.
+Wait for the database to be up before running the app to avoid connection issues. You can check it by running:
 
-3. Run the app in standalone mode:
+```bash
+$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+```
+
+#### 3. Run the app in standalone mode:
 
 ```bash
 $ npm run start
@@ -103,12 +108,6 @@ or
 
 ```bash
 $ npm run dev
-```
-
-Wait for the database to be up before running the app to avoid connection issues. You can check it by running:
-
-```bash
-$ aws dynamodb list-tables --endpoint-url http://localhost:8000
 ```
 
 ## Routes

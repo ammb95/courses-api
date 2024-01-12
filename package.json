@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
+    "start:npx": "npx ts-node src/index.ts",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "dev:npx": "nodemon --watch 'src/**/*.ts' --exec npx ts-node src/index.ts",
     "compose": "docker compose up",
     "db": "docker compose -f database-compose.yml up",
     "test": "jest --verbose",
