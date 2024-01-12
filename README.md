@@ -22,6 +22,34 @@ $ aws configure
 $ docker login
 ```
 
+#### What If I don't want to use Docker?
+
+- If you don't want to use Docker, I recommend to download DynamoDB local from [AWS website](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html) and follow the instructions there.
+
+- In order to use this version of the database there are a few things you should have in mind:
+
+  - You must have the `Java Runtime Environment (JRE)` version `11.x` or newer.
+  - Before running the database this way, you must configure your AWS credentials using `aws configure` command of the AWS CLI to set up credentials. You can set up fake credentials as below or use your real ones.
+
+  ```bash
+  AWS Access Key ID: "fakeMyKeyId"
+  AWS Secret Access Key: "fakeSecretAccessKey"
+  Default Region Name: "fakeRegion"
+  ```
+
+  - Please, notice that `AWS_ACCESS_KEY_ID` can contain only letters (A–Z, a–z) and numbers (0–9).
+  - To run the database using this approach, navigate to the directory where you extracted DynamoDBLocal.jar, and enter the following command.
+
+  ```bash
+  $ java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+  ```
+
+  - The Database will be available on `localhost:8000`. To test it, run:
+
+  ```bash
+  $ aws dynamodb list-tables --endpoint-url http://localhost:8000
+  ```
+
 ### Set Environment Variables
 
 Create a `.env` file in the project's root folder with the following content:
@@ -47,7 +75,7 @@ This `.env` file will be used when running the Node app in standalone mode. Some
 $ npm run start       # Runs the app in standalone mode
 $ npm run start:npx   # Runs the app in standalone mode using npx to fetch ts-node
 $ npm run dev         # Runs the standalone app in watch mode
-$ npm run db          # Runs the database image alone
+$ npm run db          # Runs the database image alone (only available with Docker)
 $ npm run compose     # Runs both the app and the database through Docker
 $ npm run test        # Runs test suites
 $ npm run test:watch  # Runs test suites in watch mode
@@ -80,13 +108,19 @@ The app will be available at `localhost:3000`.
 
 ### Standalone
 
-#### 1. Install dependencies:
+#### 1. Make sure you have ts-node globally installed:
+
+```bash
+$ npm i -g ts-node
+```
+
+#### 2. Install dependencies:
 
 ```bash
 $ npm install
 ```
 
-#### 2. Run the database:
+#### 3. Run the database:
 
 ```bash
 $ npm run db
@@ -98,7 +132,7 @@ Wait for the database to be up before running the app to avoid connection issues
 $ aws dynamodb list-tables --endpoint-url http://localhost:8000
 ```
 
-#### 3. Run the app in standalone mode:
+#### 4. Run the app in standalone mode:
 
 ```bash
 $ npm run start
@@ -109,6 +143,8 @@ or
 ```bash
 $ npm run dev
 ```
+
+If you have any `ts-node` namespace related problems, you can use the `npx` alternative scripts.
 
 ## Routes
 
