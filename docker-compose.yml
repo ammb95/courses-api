@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  dynamodb-local:
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    working_dir: /home/dynamodblocal
+    user: "0:0"
+
+  node-app:
+    depends_on:
+      - dynamodb-local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node-app
+    ports:
+      - "3000:3000"
+    environment:
+      - WAIT_HOSTS=dynamodb-local:8000
+      - WAIT_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+      - DB_HOST=http://dynamodb-local
+    volumes:
+      - "./src:/usr/src/app/src"
+      - "./node_modules:/usr/src/app/node_modules"
