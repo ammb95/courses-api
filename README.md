@@ -7,7 +7,7 @@
 - Make sure you have your AWS credentials registered. If not, you can register them by running:
 
 ```bash
-$ aws configure
+aws configure
 ```
 
 - Any credentials (even fake ones) should work but `AWS_ACCESS_KEY_ID` can contain only letters (A–Z, a–z) and numbers (0–9).
@@ -19,7 +19,7 @@ $ aws configure
 - Make sure you have valid Docker credentials. If not, you can register them by running:
 
 ```bash
-$ docker login
+docker login
 ```
 
 #### What If I don't want to use Docker?
@@ -29,11 +29,11 @@ $ docker login
 ##### Download and Extract it With bash (linux or macOS)
 
 ```bash
-$ curl -O https://d1ni2b6xgvw0s0.cloudfront.net/v2.x/dynamodb_local_latest.tar.gz
+curl -O https://d1ni2b6xgvw0s0.cloudfront.net/v2.x/dynamodb_local_latest.tar.gz
 
-$ mkdir dynamodblocal
+mkdir dynamodblocal
 
-$ tar -xzvf dynamodb_local_latest.tar.gz -C ./dynamodblocal
+tar -xzvf dynamodb_local_latest.tar.gz -C ./dynamodblocal
 ```
 
 ##### Download and Extract it With Windows PowerShell
@@ -61,19 +61,21 @@ Default Region Name: "fakeRegion"
 - To run the database using this approach, navigate to the directory where you extracted DynamoDBLocal.jar, and enter the following command.
 
 ```bash
-$ java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
 ```
 
 - The Database will be available on `localhost:8000`. To test it, run:
 
 ```bash
-$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+aws dynamodb list-tables --endpoint-url http://localhost:8000
 ```
 
 ### IMPORTANT
 
 ```
-Notice that, to avoid connectivity issues with the database, it is recommended that both the node app and the database should be running in the same environment. Examples
+Notice that, to avoid connectivity issues with the database, it is recommended that both the node app and the database should be running in the same environment.
+
+Examples
 
 - Both on WSL, linux, macOS
 - Both on Windows
@@ -106,30 +108,46 @@ This `.env` file will be used when running the Node app in standalone mode. Some
 ## Available Scripts
 
 ```bash
-$ npm run start       # Runs the app in standalone mode
-$ npm run start:npx   # Runs the app in standalone mode using npx to fetch ts-node
-$ npm run dev         # Runs the standalone app in watch mode
-$ npm run db          # Runs the database image alone (only available with Docker)
-$ npm run compose     # Runs both the app and the database through Docker
-$ npm run test        # Runs test suites
-$ npm run test:watch  # Runs test suites in watch mode
-$ npm run test:clear-cache  # Clears Jest cache and runs test suites
+npm run start       # Runs the app in standalone mode
+npm run start:npx   # Runs the app in standalone mode using npx to fetch ts-node
+npm run dev         # Runs the standalone app in watch mode
+npm run db          # Runs the database image alone (only available with Docker)
+npm run compose     # Runs both the app and the database through Docker
+npm run test        # Runs test suites
+npm run test:watch  # Runs test suites in watch mode
+npm run test:clear-cache  # Clears Jest cache and runs test suites
+```
+
+## Required Dependencies
+
+### 1. Install ts-node globally
+
+```bash
+npm install -g ts-node
+```
+
+### 2. Install App Dependencies
+
+On the app root directory run:
+
+```bash
+npm install
 ```
 
 ## Running the App
 
-### Using Docker
+### 1. Using Docker
 
 To run both the app and the database together, run:
 
 ```bash
-$ npm run compose
+npm run compose
 ```
 
 or
 
 ```bash
-$ docker compose up
+docker compose up
 ```
 
 Wait until you see the message:
@@ -140,42 +158,42 @@ Server is running on http://localhost:3000
 
 The app will be available at `localhost:3000`.
 
-### Standalone
+### 2. Standalone
 
-#### 1. Make sure you have ts-node globally installed:
+#### 2.1. Make sure you have ts-node globally installed:
 
 ```bash
-$ npm i -g ts-node
+npm i -g ts-node
 ```
 
-#### 2. Install dependencies:
+#### 2.2. Install dependencies:
 
 ```bash
-$ npm install
+npm install
 ```
 
-#### 3. Run the database:
+#### 2.3. Run the database:
 
 ```bash
-$ npm run db
+npm run db
 ```
 
 Wait for the database to be up before running the app to avoid connection issues. You can check it by running:
 
 ```bash
-$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+aws dynamodb list-tables --endpoint-url http://localhost:8000
 ```
 
-#### 4. Run the app in standalone mode:
+#### 2.4. Run the app in standalone mode:
 
 ```bash
-$ npm run start
+npm run start
 ```
 
 or
 
 ```bash
-$ npm run dev
+npm run dev
 ```
 
 If you have any `ts-node` namespace related problems, you can use the `npx` alternative scripts.
@@ -207,7 +225,7 @@ Courses Table Creation Skipped
 - To delete tables, run the following command (you need aws cli installed and your aws credentials configured):
 
 ```bash
-$ aws dynamodb delete-table --table-name {TABLE_NAME} --endpoint-url http://localhost:8000
+aws dynamodb delete-table --table-name {TABLE_NAME} --endpoint-url http://localhost:8000
 ```
 
 Replace `{TABLE_NAME}` with either `Users` or `Courses`.
