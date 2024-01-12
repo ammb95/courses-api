@@ -1,0 +1,50 @@
+[
+  {
+    "username": "username",
+    "password": "password",
+    "roles": ["manager"],
+    "department": "marketing"
+  },
+  {
+    "username": "username2",
+    "password": "password",
+    "roles": ["administrator"],
+    "department": "sales"
+  },
+  {
+    "username": "username3",
+    "password": "password",
+    "roles": ["consultant"],
+    "department": "marketing"
+  },
+  {
+    "username": "username4",
+    "password": "password",
+    "roles": ["administrator"],
+    "department": "marketing"
+  },
+  {
+    "username": "username5",
+    "password": "password",
+    "roles": ["consultant", "administrator"],
+    "department": "marketing"
+  },
+  {
+    "username": "username6",
+    "password": "password",
+    "roles": ["consultant", "manager"],
+    "department": "marketing"
+  },
+  {
+    "username": "username7",
+    "password": "password",
+    "roles": ["administrator", "manager"],
+    "department": "marketing"
+  },
+  {
+    "username": "username8",
+    "password": "password",
+    "roles": ["administrator", "manager"],
+    "department": "sales"
+  }
+]
