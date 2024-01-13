@@ -20,7 +20,7 @@ import {
   mockCoursesScanResult,
   mockCoursesUpdateItemResult,
 } from "./courses.mock-data";
-import { mockDatabaseError } from "../../error-utils/utils/mock-errors";
+import { mockDatabaseError } from "../../error-utils/enums/mock-errors";
 
 describe("CoursesRepository", () => {
   const mockDynamoDBClient = {

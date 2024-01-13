@@ -1,62 +1,62 @@
 import express, { Express } from "express";
 import { getEnvVariables } from "./utils/get-env-variables";
-import { ErrorHandler } from "./error-utils/error-handler";
-import { AppLogger } from "./utils/app-logger";
+import { ErrorHandler } from "./error-utils/custom-errors/error-handler";
+import { Logger } from "./utils/logger";
 import { DBManager } from "./db/db-manager";
 import { initUsersModule } from "./users/users.module";
 import { initCoursesModule } from "./courses/courses.module";
 import { initAuthModule } from "./auth/auth.module";
 import { configCors } from "./utils/config-cors";
-import { handleUnmatchedRoutes } from "./utils/handle-unmatched-routes";
 import { SchemaValidator } from "./utils/schema-validator";
 import { PasswordManager } from "./auth/utils/password-manager";
 import { APP_DEFAULT_PORT } from "./app.constants";
+import { RoutingManager } from "./utils/routing-manager";
 
 export const initApp = async (app: Express) => {
   const { APP_PORT } = getEnvVariables();
+  const port = APP_PORT || APP_DEFAULT_PORT;
+
+  const logger = new Logger();
+  const routingManager = new RoutingManager();
+  const passwordManager = new PasswordManager();
+  const schemaValidator = new SchemaValidator();
+  const errorHandler = new ErrorHandler(logger);
+  const dbManager = new DBManager(passwordManager, logger);
+
+  await dbManager.initializeDatabaseSeed();
+
+  const { usersRepository } = initUsersModule({
+    dbClient: dbManager.dbClient,
+    routingManager,
+    schemaValidator,
+    passwordManager,
+  });
+  const { authGuard } = initAuthModule({
+    usersRepository,
+    routingManager,
+    schemaValidator,
+    passwordManager,
+  });
+
+  initCoursesModule({
+    authGuard,
+    dbClient: dbManager.dbClient,
+    routingManager,
+    schemaValidator,
+  });
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-
   app.use(configCors);
 
-  const appLogger = new AppLogger();
-  app.use(appLogger.loggerMiddleware);
+  app.use(logger.httpLoggerMiddleware);
 
-  const passwordManager = new PasswordManager();
+  routingManager.attachRouters(app);
 
-  const dbManager = new DBManager(passwordManager);
-  await dbManager.setupDatabase();
-
-  const schemaValidator = new SchemaValidator();
-
-  const { usersRouter, usersRepository } = initUsersModule({
-    dbClient: dbManager.dbClient,
-    schemaValidator,
-    passwordManager,
-  });
-  const { authRouter, authGuard } = initAuthModule({
-    usersRepository,
-    schemaValidator,
-    passwordManager,
-  });
-  const { coursesRouter } = initCoursesModule({
-    authGuard,
-    dbClient: dbManager.dbClient,
-    schemaValidator,
-  });
-
-  app.use(usersRouter);
-  app.use(authRouter);
-  app.use(coursesRouter);
-
-  app.use(handleUnmatchedRoutes(appLogger));
-
-  const errorHandler = new ErrorHandler(appLogger);
+  app.use(routingManager.handleUnmatchedRoutes);
   app.use(errorHandler.handleErrorMiddleware);
 
-  const port = APP_PORT || APP_DEFAULT_PORT;
   app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}\n`);
+    logger.logMessage(`Listening on http://localhost:${port}\n`);
   });
 };

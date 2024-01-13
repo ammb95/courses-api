@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { ValidationError } from "../error-utils/custom-errors/validation.error";
-import { ErrorCodes } from "../error-utils/utils/error.codes.enum";
+import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 
 export class SchemaValidator {
   public validateSchema = <DtoType>(schema: Joi.ObjectSchema, dto: DtoType) => {

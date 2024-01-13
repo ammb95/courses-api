@@ -1,7 +1,7 @@
 import { LoginDto } from "../models/auth.dtos";
 import { UserDepartments } from "../../users/enums/user.departments.enum";
 import { UserRoles } from "../../users/enums/user.roles.enum";
-import { PermissionsMiddlewareConfig } from "../../utils/route.model";
+import { PermissionsMiddlewareConfig } from "../auth.guard";
 
 export const mockToken = "validToken";
 export const invalidMockToken = "invalidToken";

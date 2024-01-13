@@ -2,7 +2,7 @@ import { CoursesService } from "../courses.service";
 import { SchemaValidator } from "../../utils/schema-validator";
 import { CoursesRepository } from "../courses.repository";
 import { createCourseSchema, editCourseSchema } from "../models/courses.schemas";
-import { mockDatabaseError, mockValidationError } from "../../error-utils/utils/mock-errors";
+import { mockDatabaseError, mockValidationError } from "../../error-utils/enums/mock-errors";
 import {
   invalidCourseId,
   invalidCreateCourseDto,

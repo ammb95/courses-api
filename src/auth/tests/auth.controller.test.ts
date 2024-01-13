@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthController } from "../auth.controller";
 import { AuthService } from "../auth.service";
-import { mockError, mockTokenError } from "../../error-utils/utils/mock-errors";
+import { mockError, mockTokenError } from "../../error-utils/enums/mock-errors";
 import {
   invalidAuthorizationMockHeaders,
   invalidMockToken,

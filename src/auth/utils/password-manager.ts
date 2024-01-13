@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { PasswordError } from "../../error-utils/custom-errors/password.error";
-import { ErrorCodes } from "../../error-utils/utils/error.codes.enum";
+import { ErrorCodes } from "../../error-utils/enums/error.codes.enum";
 import { BCRYPT_SALT_ROUNDS } from "../auth.constants";
 
 export class PasswordManager {

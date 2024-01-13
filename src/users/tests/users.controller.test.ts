@@ -2,7 +2,7 @@ import { UsersController } from "../users.controller";
 import { UsersService } from "../users.service";
 import { HttpStatusCodes } from "../../enums/http-status-codes.enum";
 import { Request, Response } from "express";
-import { mockDatabaseError } from "../../error-utils/utils/mock-errors";
+import { mockDatabaseError } from "../../error-utils/enums/mock-errors";
 import { mockUser } from "./users.mock-data";
 
 describe("UsersController", () => {

@@ -2,7 +2,7 @@ import { CoursesController } from "../courses.controller";
 import { CoursesService } from "../courses.service";
 import { HttpStatusCodes } from "../../enums/http-status-codes.enum";
 import { Request, Response } from "express";
-import { mockDatabaseError, mockValidationError } from "../../error-utils/utils/mock-errors";
+import { mockDatabaseError, mockValidationError } from "../../error-utils/enums/mock-errors";
 import {
   mockCreateCourseDto,
   invalidCreateCourseDto,

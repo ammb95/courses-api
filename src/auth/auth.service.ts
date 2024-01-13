@@ -2,7 +2,7 @@ import { UsersRepository } from "../users/users.repository";
 import { UserModel } from "../users/models/user.model";
 import { DatabaseError } from "../error-utils/custom-errors/database.error";
 import { AuthError } from "../error-utils/custom-errors/auth.error";
-import { ErrorCodes } from "../error-utils/utils/error.codes.enum";
+import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 import { TokenManager } from "./utils/token-manager";
 import { PasswordManager } from "./utils/password-manager";
 import { LoginDto } from "./models/auth.dtos";

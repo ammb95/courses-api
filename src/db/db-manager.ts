@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { DatabaseError } from "../error-utils/custom-errors/database.error";
-import { ErrorCodes } from "../error-utils/utils/error.codes.enum";
+import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 import { getEnvVariables } from "../utils/get-env-variables";
 import { randomUUID } from "crypto";
 import { PasswordManager } from "../auth/utils/password-manager";
@@ -28,6 +28,7 @@ import {
   DEFAULT_AWS_ACCESS_KEY_ID,
   DEFAULT_AWS_SECRET_ACCESS_KEY,
 } from "./db.constants";
+import { Logger } from "../utils/logger";
 
 type DBConfig = {
   region: string;
@@ -42,7 +43,7 @@ export class DBManager {
   private readonly fileManager = new FileManager();
   readonly dbClient: DynamoDBClient;
 
-  constructor(private readonly passwordManager: PasswordManager) {
+  constructor(private readonly passwordManager: PasswordManager, private logger: Logger) {
     const config = this.getDBConfig();
     this.dbClient = new DynamoDBClient(config);
   }
@@ -74,7 +75,7 @@ export class DBManager {
     try {
       const command = new CreateTableCommand({ ...params, TableName: tableName });
       await this.dbClient.send(command);
-      console.log(`${tableName} Table Successfully Created`);
+      this.logger.logMessage(`${tableName} Table Successfully Created`);
     } catch (error) {
       throw new DatabaseError({
         message: `Error creating table ${tableName}`,
@@ -83,7 +84,7 @@ export class DBManager {
     }
   };
 
-  private mapDtoToPutRequest = async <ResourceDto extends { password?: string }>(
+  private mapResourceDtoToPutRequest = async <ResourceDto extends { password?: string }>(
     resourceDto: ResourceDto
   ) => {
     // Hash password in case the current DTO regards users
@@ -100,14 +101,14 @@ export class DBManager {
     };
   };
 
-  private populateTable = async <ResourceDto extends { password?: string }>(
+  private populateTableFromFile = async <ResourceDto extends { password?: string }>(
     tableName: string,
     filePath: string
   ): Promise<void> => {
     try {
       const resourceDtos = await this.fileManager.getDataFromFile<ResourceDto>(__dirname, filePath);
 
-      const putRequests = await Promise.all(resourceDtos.map(this.mapDtoToPutRequest));
+      const putRequests = await Promise.all(resourceDtos.map(this.mapResourceDtoToPutRequest));
 
       const command = new BatchWriteItemCommand({
         RequestItems: {
@@ -116,7 +117,7 @@ export class DBManager {
       });
 
       await this.dbClient.send(command);
-      console.log(`${tableName} Table Successfully Populated`);
+      this.logger.logMessage(`${tableName} Table Successfully Populated`);
     } catch (error) {
       throw new DatabaseError({
         message: `Error populating table ${tableName}`,
@@ -125,13 +126,13 @@ export class DBManager {
     }
   };
 
-  private tableExists = async (tableName: string): Promise<boolean> => {
+  private checkTableExists = async (tableName: string): Promise<boolean> => {
     try {
       const command = new ListTablesCommand({});
       const existingTables = await this.dbClient.send(command);
 
       if (existingTables.TableNames && existingTables.TableNames.includes(tableName)) {
-        console.log(`${tableName} Table Creation Skipped`);
+        this.logger.logMessage(`${tableName} Table Creation Skipped: Table Already Exists`);
         return true;
       }
       return false;
@@ -150,30 +151,64 @@ export class DBManager {
     params: any;
   }): Promise<void> => {
     try {
-      const tableExists = await this.tableExists(tableName);
+      const tableExists = await this.checkTableExists(tableName);
       if (!tableExists) {
         await this.createTable(tableName, params);
-        await this.populateTable(tableName, dataFilePath);
+        await this.populateTableFromFile(tableName, dataFilePath);
       }
     } catch (error) {
       throw error;
     }
   };
 
-  public setupDatabase = async (): Promise<void> => {
+  private checkDatabaseConnection = async (): Promise<boolean> => {
     try {
-      await this.handleTableCreationAndPopulation({
-        tableName: USERS_TABLE_NAME,
-        dataFilePath: USERS_DATA_FILE_PATH,
-        params: USERS_TABLE_PARAMS,
-      });
-      await this.handleTableCreationAndPopulation({
-        tableName: COURSES_TABLE_NAME,
-        dataFilePath: COURSES_DATA_FILE_PATH,
-        params: COURSES_TABLE_PARAMS,
-      });
+      this.logger.logMessage("Trying To Connect With Database");
+      const command = new ListTablesCommand({});
+
+      await this.dbClient.send(command);
+
+      this.logger.logMessage("Connection Successfully Established With Database");
+      return true;
     } catch (error) {
-      console.log("Error During Database Setup: ", error);
+      this.logger.logError(
+        new DatabaseError({
+          message: "Error Connecting With The Database",
+          code: ErrorCodes.DATABASE_ERROR,
+        })
+      );
+
+      return false;
+    }
+  };
+
+  public initializeDatabaseSeed = async (): Promise<void> => {
+    try {
+      const isDatabaseConnected = await this.checkDatabaseConnection();
+
+      if (isDatabaseConnected) {
+        this.logger.logMessage("Starting Database Seed");
+
+        await this.handleTableCreationAndPopulation({
+          tableName: USERS_TABLE_NAME,
+          dataFilePath: USERS_DATA_FILE_PATH,
+          params: USERS_TABLE_PARAMS,
+        });
+        await this.handleTableCreationAndPopulation({
+          tableName: COURSES_TABLE_NAME,
+          dataFilePath: COURSES_DATA_FILE_PATH,
+          params: COURSES_TABLE_PARAMS,
+        });
+
+        this.logger.logMessage("Database Seed Finished");
+      }
+    } catch (error) {
+      this.logger.logError(
+        new DatabaseError({
+          message: "Error Seeding The Database",
+          code: ErrorCodes.DATABASE_ERROR,
+        })
+      );
     }
   };
 }

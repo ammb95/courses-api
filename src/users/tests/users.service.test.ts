@@ -4,7 +4,7 @@ import { SchemaValidator } from "../../utils/schema-validator";
 import { DatabaseError } from "../../error-utils/custom-errors/database.error";
 import { ValidationError } from "../../error-utils/custom-errors/validation.error";
 import { createUserSchema } from "../models/users.schemas";
-import { mockDatabaseError, mockValidationError } from "../../error-utils/utils/mock-errors";
+import { mockDatabaseError, mockValidationError } from "../../error-utils/enums/mock-errors";
 import {
   mockNonExistingUsername,
   mockUser,

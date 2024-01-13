@@ -2,7 +2,7 @@ import { AuthError } from "../../error-utils/custom-errors/auth.error";
 import { TokenManager } from "../utils/token-manager";
 import { UserDepartments } from "../../users/enums/user.departments.enum";
 import { NextFunction, Request, Response } from "express";
-import { mockTokenError } from "../../error-utils/utils/mock-errors";
+import { mockTokenError } from "../../error-utils/enums/mock-errors";
 import { invalidMockToken, mockPermissionsConfig, mockToken } from "./auth.mock-data";
 import { mockUser } from "../../users/tests/users.mock-data";
 import { UserRoles } from "../../users/enums/user.roles.enum";

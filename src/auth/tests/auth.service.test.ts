@@ -12,7 +12,7 @@ import {
   mockPasswordError,
   mockTokenError,
   mockValidationError,
-} from "../../error-utils/utils/mock-errors";
+} from "../../error-utils/enums/mock-errors";
 import {
   invalidMockCredentials,
   invalidPasswordMockCredentials,

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { UsersRepository } from "../../users/users.repository";
 import { getEnvVariables } from "../../utils/get-env-variables";
 import { TokenError } from "../../error-utils/custom-errors/token.error";
-import { ErrorCodes } from "../../error-utils/utils/error.codes.enum";
+import { ErrorCodes } from "../../error-utils/enums/error.codes.enum";
 import { UserModel } from "../../users/models/user.model";
 import { JWT_DEFAULT_SECRET_KEY } from "../auth.constants";
 

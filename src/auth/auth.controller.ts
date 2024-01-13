@@ -2,7 +2,7 @@ import { Handler } from "express";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./models/auth.dtos";
 import { AuthError } from "../error-utils/custom-errors/auth.error";
-import { ErrorCodes } from "../error-utils/utils/error.codes.enum";
+import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 import { HttpStatusCodes } from "../enums/http-status-codes.enum";
 
 export class AuthController {

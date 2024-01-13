@@ -1,9 +1,16 @@
 import { Handler } from "express";
 import { TokenManager } from "./utils/token-manager";
 import { AuthError } from "../error-utils/custom-errors/auth.error";
-import { ErrorCodes } from "../error-utils/utils/error.codes.enum";
-import { PermissionsMiddleware, PermissionsMiddlewareConfig } from "../utils/route.model";
+import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
+import { UserDepartments } from "../users/enums/user.departments.enum";
+import { UserRoles } from "../users/enums/user.roles.enum";
 
+export type PermissionsMiddlewareConfig = {
+  allowedRoles: UserRoles[];
+  allowedDepartments: UserDepartments[];
+};
+
+export type PermissionsMiddleware = (config: PermissionsMiddlewareConfig) => Handler;
 export class AuthGuard {
   constructor(private readonly tokenManager: TokenManager) {}
   public authenticate: Handler = async (req, res, next): Promise<void> => {
@@ -38,11 +45,10 @@ export class AuthGuard {
 
         const user = this.tokenManager.getUserFromToken(token);
 
-        const isUserAllowedByRole = user.roles.some((role) => config.allowedRoles.includes(role));
+        const isAllowedByRole = user.roles.some((role) => config.allowedRoles.includes(role));
+        const isAllowedByDepartment = config.allowedDepartments.includes(user.department);
 
-        const isUserAllowedByDepartment = config.allowedDepartments.includes(user.department);
-
-        if (isUserAllowedByRole && isUserAllowedByDepartment) {
+        if (isAllowedByRole && isAllowedByDepartment) {
           next();
         } else {
           throw new AuthError({

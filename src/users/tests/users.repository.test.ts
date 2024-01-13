@@ -2,7 +2,7 @@ import { DynamoDBClient, QueryCommand, PutItemCommand } from "@aws-sdk/client-dy
 import { UsersRepository } from "../users.repository";
 import { DatabaseError } from "../../error-utils/custom-errors/database.error";
 import { PasswordManager } from "../../auth/utils/password-manager";
-import { mockDatabaseError } from "../../error-utils/utils/mock-errors";
+import { mockDatabaseError } from "../../error-utils/enums/mock-errors";
 import {
   mockHashedPassword,
   mockUser,

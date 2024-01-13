@@ -1,4 +1,4 @@
-import { ErrorCodes } from "../utils/error.codes.enum";
+import { ErrorCodes } from "../enums/error.codes.enum";
 
 export interface BaseErrorProps {
   message: string;

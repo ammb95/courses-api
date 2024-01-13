@@ -188,7 +188,7 @@ docker compose up
 Wait until you see the message:
 
 ```bash
-Server is running on http://localhost:3000
+[SERVER] Listening on http://localhost:3000
 ```
 
 The app will be available at `localhost:3000`.
@@ -237,23 +237,38 @@ If you have any `ts-node` namespace related problems, you can use the `npx` alte
 
 For information about available routes and their requirements, check the [related documentation](/routes.docs.md).
 
-## Table Creation and Population
+## Database Seeding
 
 - When running the app for the first time, it will automatically create and populate Users and Courses tables.
 - You should see the following messages:
 
 ```bash
-Users Table Successfully Created
-Users Table Successfully Populated
-Courses Table Successfully Created
-Courses Table Successfully Populated
+[SERVER] Trying To Connect With Database
+[SERVER] Connection Successfully Established With Database
+[SERVER] Starting Database Seed
+[SERVER] Users Table Successfully Created
+[SERVER] Users Table Successfully Populated
+[SERVER] Courses Table Successfully Created
+[SERVER] Courses Table Successfully Populated
+[SERVER] Database Seed Finished
 ```
 
 - If the app is not running for the first time (tables already exist), you'll see:
 
 ```bash
-Users Table Creation Skipped
-Courses Table Creation Skipped
+[SERVER] Trying To Connect With Database
+[SERVER] Connection Successfully Established With Database
+[SERVER] Starting Database Seed
+[SERVER] Users Table Creation Skipped: Table Already Exists
+[SERVER] Courses Table Creation Skipped: Table Already Exists
+[SERVER] Database Seed Finished
+```
+
+- If the app can't establish a connection with the database, you should see the following:
+
+```bash
+[SERVER] Trying To Connect With Database
+[ERROR] DATABASE: Error Connecting With The Database
 ```
 
 - Check available usernames and passwords at `/src/db/data/users.data.json`.

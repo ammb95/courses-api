@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import { HttpStatusCodes } from "../enums/http-status-codes.enum";
-import { BaseError } from "./custom-errors/base-error";
-import { ERROR_CODES_TO_HTTP_STATUSES_MAP } from "./utils/error-code-http-status-map";
-import { ErrorCodes } from "./utils/error.codes.enum";
-import { AppLogger } from "../utils/app-logger";
+import { HttpStatusCodes } from "../../enums/http-status-codes.enum";
+import { BaseError } from "./base-error";
+import { ERROR_CODES_TO_HTTP_STATUSES } from "../enums/error-code-http-status-map";
+import { ErrorCodes } from "../enums/error.codes.enum";
+import { Logger } from "../../utils/logger";
 
 export class ErrorHandler {
-  constructor(private readonly appLogger: AppLogger) {}
+  constructor(private readonly logger: Logger) {}
 
   private getErrorStatusCode = (error: BaseError): HttpStatusCodes => {
-    return ERROR_CODES_TO_HTTP_STATUSES_MAP[error.code];
+    return ERROR_CODES_TO_HTTP_STATUSES[error.code];
   };
 
   public handleErrorMiddleware = (
@@ -24,7 +24,7 @@ export class ErrorHandler {
 
     const statusCode = this.getErrorStatusCode(error);
 
-    this.appLogger.logError(error);
+    this.logger.logError(error);
     res.status(statusCode).json({ error: error.code, message: error.message }).end();
   };
 }

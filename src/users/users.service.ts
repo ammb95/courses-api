@@ -4,7 +4,7 @@ import { createUserSchema } from "./models/users.schemas";
 import { UsersRepository } from "./users.repository";
 import { SchemaValidator } from "../utils/schema-validator";
 import { DatabaseError } from "../error-utils/custom-errors/database.error";
-import { ErrorCodes } from "../error-utils/utils/error.codes.enum";
+import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 
 export class UsersService {
   constructor(

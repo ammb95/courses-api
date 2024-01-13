@@ -10,7 +10,7 @@ import { UserModel } from "./models/user.model";
 import { CreateUserDto } from "./models/users.dtos";
 import { USERS_TABLE_NAME } from "./users.constants";
 import { DatabaseError } from "../error-utils/custom-errors/database.error";
-import { ErrorCodes } from "../error-utils/utils/error.codes.enum";
+import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 import { randomUUID } from "crypto";
 import { PasswordManager } from "../auth/utils/password-manager";
 
