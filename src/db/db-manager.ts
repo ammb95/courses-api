@@ -184,24 +184,20 @@ export class DBManager {
 
   public initializeDatabaseSeed = async (): Promise<void> => {
     try {
-      const isDatabaseConnected = await this.checkDatabaseConnection();
+      this.logger.logMessage("Starting Database Seed");
 
-      if (isDatabaseConnected) {
-        this.logger.logMessage("Starting Database Seed");
+      await this.handleTableCreationAndPopulation({
+        tableName: USERS_TABLE_NAME,
+        dataFilePath: USERS_DATA_FILE_PATH,
+        params: USERS_TABLE_PARAMS,
+      });
+      await this.handleTableCreationAndPopulation({
+        tableName: COURSES_TABLE_NAME,
+        dataFilePath: COURSES_DATA_FILE_PATH,
+        params: COURSES_TABLE_PARAMS,
+      });
 
-        await this.handleTableCreationAndPopulation({
-          tableName: USERS_TABLE_NAME,
-          dataFilePath: USERS_DATA_FILE_PATH,
-          params: USERS_TABLE_PARAMS,
-        });
-        await this.handleTableCreationAndPopulation({
-          tableName: COURSES_TABLE_NAME,
-          dataFilePath: COURSES_DATA_FILE_PATH,
-          params: COURSES_TABLE_PARAMS,
-        });
-
-        this.logger.logMessage("Database Seed Finished");
-      }
+      this.logger.logMessage("Database Seed Finished");
     } catch (error) {
       this.logger.logError(
         new DatabaseError({
