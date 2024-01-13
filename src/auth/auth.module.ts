@@ -8,6 +8,8 @@ import { PasswordManager } from "./utils/password-manager";
 import { SchemaValidator } from "../utils/schema-validator";
 import { RoutingManager } from "../utils/routing-manager";
 import { AUTH_ROUTE_NAMESPACE } from "./auth.constants";
+import { Logger } from "../utils/logger";
+import { log } from "console";
 
 export interface AuthModule {
   authGuard: AuthGuard;
@@ -18,6 +20,7 @@ export interface AuthModuleDeps {
   routingManager: RoutingManager;
   schemaValidator: SchemaValidator;
   passwordManager: PasswordManager;
+  logger: Logger;
 }
 
 export const initAuthModule = ({
@@ -25,7 +28,10 @@ export const initAuthModule = ({
   schemaValidator,
   passwordManager,
   routingManager,
+  logger,
 }: AuthModuleDeps): AuthModule => {
+  logger.logMessage("Starting Auth Module");
+
   const tokenManager = new TokenManager(usersRepository);
 
   const authGuard = new AuthGuard(tokenManager);
@@ -42,6 +48,8 @@ export const initAuthModule = ({
   const authRoutes = getAuthRoutes(authController);
 
   routingManager.createRouter({ basePath: AUTH_ROUTE_NAMESPACE, routes: authRoutes });
+
+  logger.logMessage("Auth Module Started Successfully");
 
   return {
     authGuard,

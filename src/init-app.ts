@@ -23,6 +23,11 @@ export const initApp = async (app: Express) => {
   const errorHandler = new ErrorHandler(logger);
   const dbManager = new DBManager(passwordManager, logger);
 
+  const isDatabaseConnected = await dbManager.checkDatabaseConnection();
+  if (!isDatabaseConnected) {
+    return;
+  }
+
   await dbManager.initializeDatabaseSeed();
 
   const { usersRepository } = initUsersModule({
@@ -30,12 +35,15 @@ export const initApp = async (app: Express) => {
     routingManager,
     schemaValidator,
     passwordManager,
+    logger,
   });
+
   const { authGuard } = initAuthModule({
     usersRepository,
     routingManager,
     schemaValidator,
     passwordManager,
+    logger,
   });
 
   initCoursesModule({
@@ -43,6 +51,7 @@ export const initApp = async (app: Express) => {
     dbClient: dbManager.dbClient,
     routingManager,
     schemaValidator,
+    logger,
   });
 
   app.use(configCors);

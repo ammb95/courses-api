@@ -10,4 +10,5 @@ export const ERROR_CODES_TO_HTTP_STATUSES: Record<ErrorCodes, HttpStatusCodes> =
   [ErrorCodes.PASSWORD_ERROR]: HttpStatusCodes.UNAUTHORIZED,
   [ErrorCodes.DATABASE_ERROR]: HttpStatusCodes.INTERNAL_SERVER_ERROR,
   [ErrorCodes.VALIDATION_ERROR]: HttpStatusCodes.UNPROCESSABLE_ENTITY,
+  [ErrorCodes.INTERNAL_SERVER_ERROR]: HttpStatusCodes.INTERNAL_SERVER_ERROR,
 };

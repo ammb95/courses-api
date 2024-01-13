@@ -161,7 +161,7 @@ export class DBManager {
     }
   };
 
-  private checkDatabaseConnection = async (): Promise<boolean> => {
+  public checkDatabaseConnection = async (): Promise<boolean> => {
     try {
       this.logger.logMessage("Trying To Connect With Database");
       const command = new ListTablesCommand({});

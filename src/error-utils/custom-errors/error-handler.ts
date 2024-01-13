@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpStatusCodes } from "../../enums/http-status-codes.enum";
 import { BaseError } from "./base-error";
-import { ERROR_CODES_TO_HTTP_STATUSES } from "../enums/error-code-http-status-map";
+import { ERROR_CODES_TO_HTTP_STATUSES } from "../enums/error-codes-to-http-status-map";
 import { ErrorCodes } from "../enums/error.codes.enum";
 import { Logger } from "../../utils/logger";
 

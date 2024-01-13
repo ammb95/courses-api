@@ -7,6 +7,7 @@ import { SchemaValidator } from "../utils/schema-validator";
 import { PasswordManager } from "../auth/utils/password-manager";
 import { RoutingManager } from "../utils/routing-manager";
 import { USERS_ROUTER_NAMESPACE } from "./users.constants";
+import { Logger } from "../utils/logger";
 
 export interface UsersModule {
   usersRepository: UsersRepository;
@@ -17,6 +18,7 @@ export interface UsersModuleDeps {
   routingManager: RoutingManager;
   schemaValidator: SchemaValidator;
   passwordManager: PasswordManager;
+  logger: Logger;
 }
 
 export const initUsersModule = ({
@@ -24,7 +26,10 @@ export const initUsersModule = ({
   schemaValidator,
   passwordManager,
   routingManager,
+  logger,
 }: UsersModuleDeps): UsersModule => {
+  logger.logMessage("Starting Users Module");
+
   const usersRepository = new UsersRepository(dbClient, passwordManager);
   const usersService = new UsersService(usersRepository, schemaValidator);
   const usersController = new UsersController(usersService);
@@ -32,6 +37,8 @@ export const initUsersModule = ({
   const usersRoutes = getUsersRoutes(usersController);
 
   routingManager.createRouter({ basePath: USERS_ROUTER_NAMESPACE, routes: usersRoutes });
+
+  logger.logMessage("Users Module Started Successfully");
 
   return { usersRepository };
 };

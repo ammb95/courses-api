@@ -7,14 +7,14 @@ import { SchemaValidator } from "../utils/schema-validator";
 import { AuthGuard } from "../auth/auth.guard";
 import { RoutingManager } from "../utils/routing-manager";
 import { COURSES_ROUTE_NAMESPACE } from "./courses.constants";
-
-export interface CoursesModule {}
+import { Logger } from "../utils/logger";
 
 export interface CoursesModuleDeps {
   authGuard: AuthGuard;
   dbClient: DynamoDBClient;
   routingManager: RoutingManager;
   schemaValidator: SchemaValidator;
+  logger: Logger;
 }
 
 export class CoursesModule {}
@@ -24,7 +24,10 @@ export const initCoursesModule = ({
   dbClient,
   schemaValidator,
   routingManager,
-}: CoursesModuleDeps): CoursesModule => {
+  logger,
+}: CoursesModuleDeps) => {
+  logger.logMessage("Starting Courses Module");
+
   const coursesRepository = new CoursesRepository(dbClient);
   const coursesService = new CoursesService(coursesRepository, schemaValidator);
   const coursesController = new CoursesController(coursesService);
@@ -32,5 +35,5 @@ export const initCoursesModule = ({
   const coursesRoutes = getCoursesRoutes({ coursesController, authGuard });
   routingManager.createRouter({ basePath: COURSES_ROUTE_NAMESPACE, routes: coursesRoutes });
 
-  return {};
+  logger.logMessage("Courses Module Started Successfully");
 };
