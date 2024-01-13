@@ -1,4 +1,37 @@
+# Index
+
+- [Requirements](#requirements)
+  - [ts-node](#aws-cli)
+  - [AWS CLI](#aws-cli)
+  - [Docker CLI](#docker-cli)
+    - [What If I don't want to use Docker?](#what-if-i-dont-want-to-use-docker)
+      - [Download and Extract it With bash (linux or macOS)](#download-and-extract-it-with-bash-linux-or-macos)
+      - [Download and Extract it With Windows PowerShell](#download-and-extract-it-with-windows-powershell)
+  - [IMPORTANT](#important)
+  - [Set Environment Variables](#set-environment-variables)
+- [Available Scripts](#available-scripts)
+- [Install App Dependencies](#install-app-dependencies)
+- [Running the App](#running-the-app)
+  - [1. Using Docker](#1-using-docker)
+  - [2. Standalone](#2-standalone)
+    - [2.1. Make sure you have ts-node globally installed](#21-make-sure-you-have-ts-node-globally-installed)
+    - [2.2. Install dependencies](#22-install-dependencies)
+    - [2.3. Run the database](#23-run-the-database)
+    - [2.4. Run the app in standalone mode](#24-run-the-app-in-standalone-mode)
+- [Routes](#routes)
+- [Table Creation and Population](#table-creation-and-population)
+
+- [Default Available Users](#default-available-users)
+
 ## Requirements
+
+### ts-node
+
+Make sure you have ts-node installed globally.
+
+```bash
+npm install -g ts-node
+```
 
 ### AWS CLI
 
@@ -118,15 +151,7 @@ npm run test:watch  # Runs test suites in watch mode
 npm run test:clear-cache  # Clears Jest cache and runs test suites
 ```
 
-## Required Dependencies
-
-### 1. Install ts-node globally
-
-```bash
-npm install -g ts-node
-```
-
-### 2. Install App Dependencies
+## Install App Dependencies
 
 On the app root directory run:
 
