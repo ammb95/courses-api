@@ -153,7 +153,13 @@ npm run test:clear-cache  # Clears Jest cache and runs test suites
 
 ## Install App Dependencies
 
-On the app root directory run:
+#### Make sure you have ts-node globally installed:
+
+```bash
+npm i -g ts-node
+```
+
+Then, on the app root directory run:
 
 ```bash
 npm install
@@ -162,6 +168,12 @@ npm install
 ## Running the App
 
 ### 1. Using Docker
+
+#### 1.1 Make sure you have ts-node globally installed:
+
+```bash
+npm i -g ts-node
+```
 
 To run both the app and the database together, run:
 
