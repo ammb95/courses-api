@@ -59,7 +59,7 @@ docker login
 
 - If you don't want to use Docker, I recommend to download DynamoDB local from [AWS website](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html) and follow the instructions there.
 
-##### Download and Extract it With bash (linux or macOS)
+##### Download and Extract it With bash (Linux or macOS)
 
 ```bash
 curl -O https://d1ni2b6xgvw0s0.cloudfront.net/v2.x/dynamodb_local_latest.tar.gz
@@ -247,7 +247,7 @@ Courses Table Creation Skipped
 ```
 
 - Check available usernames and passwords at `/src/db/data/users.data.json`.
-- To delete tables, run the following command (you need aws cli installed and your aws credentials configured):
+- To delete tables, run the following command (you need AWS CLI installed and your AWS credentials configured):
 
 ```bash
 aws dynamodb delete-table --table-name {TABLE_NAME} --endpoint-url http://localhost:8000
@@ -257,4 +257,4 @@ Replace `{TABLE_NAME}` with either `Users` or `Courses`.
 
 ## Default Available Users
 
-- To check the users created on table population, their passwords and roles, please check [this file](/src/db/data/users.data.json)
+- To check the users created on table population, their passwords and roles, please check [this file](/src/db/data/users.data.json).
