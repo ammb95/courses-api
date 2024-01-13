@@ -45,9 +45,9 @@ export const initApp = async (app: Express) => {
     schemaValidator,
   });
 
+  app.use(configCors);
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(configCors);
 
   app.use(logger.httpLoggerMiddleware);
 
