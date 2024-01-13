@@ -35,13 +35,13 @@ export const initApp = async (app: Express) => {
     schemaValidator,
     passwordManager,
   });
-  const { authRouter, authService } = initAuthModule({
+  const { authRouter, authGuard } = initAuthModule({
     usersRepository,
     schemaValidator,
     passwordManager,
   });
   const { coursesRouter } = initCoursesModule({
-    authService,
+    authGuard,
     dbClient: dbManager.dbClient,
     schemaValidator,
   });

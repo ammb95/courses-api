@@ -1,31 +1,23 @@
 import { AppRouteModel } from "../utils/route.model";
-import { COURSES_ROUTE_PATH } from "./courses.constants";
+import { COURSES_PERMISSIONS_CONFIG, COURSES_ROUTE_PATH } from "./courses.constants";
 import { CoursesController } from "./courses.controller";
-import { AuthService } from "../auth/auth.service";
-import { UserDepartments } from "../users/enums/user.departments.enum";
-import { UserRoles } from "../users/enums/user.roles.enum";
 import { HttpMethods } from "../enums/http-methods.enum";
-
-const coursesRoutesAllowedRoles: UserRoles[] = [UserRoles.ADMINISTRATOR, UserRoles.MANAGER];
-const coursesRoutesAllowedDepartments: UserDepartments[] = [UserDepartments.MARKETING];
+import { AuthGuard } from "../auth/auth.guard";
 
 export const getCoursesRoutes = ({
   coursesController,
-  authService,
+  authGuard: authGuard,
 }: {
   coursesController: CoursesController;
-  authService: AuthService;
+  authGuard: AuthGuard;
 }): AppRouteModel[] => [
   {
     method: HttpMethods.GET,
     path: `/${COURSES_ROUTE_PATH}`,
     handler: coursesController.getAll,
     authConfig: {
-      authMiddleware: authService.authenticate,
-      permissionsMiddleware: authService.checkPermissionsFactory(
-        coursesRoutesAllowedRoles,
-        coursesRoutesAllowedDepartments
-      ),
+      authMiddleware: authGuard.authenticate,
+      permissionsMiddleware: authGuard.checkPermissions(COURSES_PERMISSIONS_CONFIG),
     },
   },
   {
@@ -33,11 +25,8 @@ export const getCoursesRoutes = ({
     path: `/${COURSES_ROUTE_PATH}/:id`,
     handler: coursesController.getById,
     authConfig: {
-      authMiddleware: authService.authenticate,
-      permissionsMiddleware: authService.checkPermissionsFactory(
-        coursesRoutesAllowedRoles,
-        coursesRoutesAllowedDepartments
-      ),
+      authMiddleware: authGuard.authenticate,
+      permissionsMiddleware: authGuard.checkPermissions(COURSES_PERMISSIONS_CONFIG),
     },
   },
   {
@@ -45,11 +34,8 @@ export const getCoursesRoutes = ({
     path: `/${COURSES_ROUTE_PATH}`,
     handler: coursesController.create,
     authConfig: {
-      authMiddleware: authService.authenticate,
-      permissionsMiddleware: authService.checkPermissionsFactory(
-        coursesRoutesAllowedRoles,
-        coursesRoutesAllowedDepartments
-      ),
+      authMiddleware: authGuard.authenticate,
+      permissionsMiddleware: authGuard.checkPermissions(COURSES_PERMISSIONS_CONFIG),
     },
   },
   {
@@ -57,11 +43,8 @@ export const getCoursesRoutes = ({
     path: `/${COURSES_ROUTE_PATH}/:id`,
     handler: coursesController.edit,
     authConfig: {
-      authMiddleware: authService.authenticate,
-      permissionsMiddleware: authService.checkPermissionsFactory(
-        coursesRoutesAllowedRoles,
-        coursesRoutesAllowedDepartments
-      ),
+      authMiddleware: authGuard.authenticate,
+      permissionsMiddleware: authGuard.checkPermissions(COURSES_PERMISSIONS_CONFIG),
     },
   },
   {
@@ -69,11 +52,8 @@ export const getCoursesRoutes = ({
     path: `/${COURSES_ROUTE_PATH}/:id`,
     handler: coursesController.delete,
     authConfig: {
-      authMiddleware: authService.authenticate,
-      permissionsMiddleware: authService.checkPermissionsFactory(
-        coursesRoutesAllowedRoles,
-        coursesRoutesAllowedDepartments
-      ),
+      authMiddleware: authGuard.authenticate,
+      permissionsMiddleware: authGuard.checkPermissions(COURSES_PERMISSIONS_CONFIG),
     },
   },
 ];

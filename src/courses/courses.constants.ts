@@ -1,4 +1,7 @@
 import { CreateTableInput } from "@aws-sdk/client-dynamodb";
+import { UserRoles } from "../users/enums/user.roles.enum";
+import { UserDepartments } from "../users/enums/user.departments.enum";
+import { PermissionsMiddlewareConfig } from "../utils/route.model";
 
 export const COURSES_ROUTE_PATH = "courses";
 export const COURSES_TABLE_NAME = "Courses";
@@ -13,4 +16,9 @@ export const COURSES_TABLE_PARAMS: CreateTableInput = {
     WriteCapacityUnits: 1,
   },
   BillingMode: "PROVISIONED",
+};
+
+export const COURSES_PERMISSIONS_CONFIG: PermissionsMiddlewareConfig = {
+  allowedRoles: [UserRoles.ADMINISTRATOR, UserRoles.MANAGER],
+  allowedDepartments: [UserDepartments.MARKETING],
 };

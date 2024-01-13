@@ -1,4 +1,3 @@
-import { Handler } from "express";
 import { UsersRepository } from "../users/users.repository";
 import { UserModel } from "../users/models/user.model";
 import { DatabaseError } from "../error-utils/custom-errors/database.error";
@@ -8,7 +7,6 @@ import { TokenManager } from "./utils/token-manager";
 import { PasswordManager } from "./utils/password-manager";
 import { LoginDto } from "./models/auth.dtos";
 import { loginSchema } from "./models/auth.schemas";
-import { PermissionsMiddleware } from "../utils/route.model";
 import { SchemaValidator } from "../utils/schema-validator";
 
 export class AuthService {
@@ -47,59 +45,6 @@ export class AuthService {
     } catch (error) {
       throw error;
     }
-  };
-
-  public authenticate: Handler = async (req, res, next): Promise<void> => {
-    try {
-      const token = req.headers.authorization;
-
-      if (!token) {
-        throw new AuthError({
-          message: "No Token Provided",
-          code: ErrorCodes.UNAUTHORIZED,
-        });
-      }
-
-      const isTokenValid = await this.tokenManager.validateToken(token);
-
-      if (!isTokenValid) {
-        throw new AuthError({
-          message: "Invalid Token",
-          code: ErrorCodes.UNAUTHORIZED,
-        });
-      }
-      next();
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public checkPermissionsFactory: PermissionsMiddleware = (
-    routeAllowedRoles,
-    routeAllowedDepartments
-  ) => {
-    return (req, res, next) => {
-      try {
-        const token = req.headers.authorization as string;
-
-        const user = this.tokenManager.getUserFromToken(token);
-
-        const isUserAllowedByRole = user.roles.some((role) => routeAllowedRoles.includes(role));
-
-        const isUserAllowedByDepartment = routeAllowedDepartments.includes(user.department);
-
-        if (isUserAllowedByRole && isUserAllowedByDepartment) {
-          next();
-        } else {
-          throw new AuthError({
-            message: "Forbidden: Insufficient permissions",
-            code: ErrorCodes.FORBIDDEN,
-          });
-        }
-      } catch (error) {
-        next(error);
-      }
-    };
   };
 
   public logout = async (token: string): Promise<void> => {

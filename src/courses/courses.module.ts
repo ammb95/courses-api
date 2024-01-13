@@ -1,25 +1,25 @@
 import express, { Router } from "express";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { CoursesRepository } from "./courses.repository";
 import { CoursesService } from "./courses.service";
 import { CoursesController } from "./courses.controller";
 import { getCoursesRoutes } from "./courses.routes";
 import { bindRoutes } from "../utils/bind-routes";
-import { AuthService } from "../auth/auth.service";
 import { SchemaValidator } from "../utils/schema-validator";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { AuthGuard } from "../auth/auth.guard";
 
 export interface CoursesModule {
   coursesRouter: Router;
 }
 
 export interface CoursesModuleProps {
-  authService: AuthService;
+  authGuard: AuthGuard;
   dbClient: DynamoDBClient;
   schemaValidator: SchemaValidator;
 }
 
 export const initCoursesModule = ({
-  authService,
+  authGuard,
   dbClient,
   schemaValidator,
 }: CoursesModuleProps): CoursesModule => {
@@ -28,7 +28,7 @@ export const initCoursesModule = ({
   const coursesController = new CoursesController(coursesService);
 
   const coursesRouter = express.Router();
-  const coursesRoutes = getCoursesRoutes({ coursesController, authService });
+  const coursesRoutes = getCoursesRoutes({ coursesController, authGuard });
 
   bindRoutes(coursesRouter, coursesRoutes);
 

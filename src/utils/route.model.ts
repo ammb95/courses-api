@@ -1,12 +1,14 @@
 import { Handler } from "express";
-import { UserDepartments } from "../users/enums/user.departments.enum";
-import { UserRoles } from "../users/enums/user.roles.enum";
 import { HttpMethods } from "../enums/http-methods.enum";
+import { UserRoles } from "../users/enums/user.roles.enum";
+import { UserDepartments } from "../users/enums/user.departments.enum";
 
-export type PermissionsMiddleware = (
-  allowedRoles: UserRoles[],
-  allowedDepartments: UserDepartments[]
-) => Handler;
+export type PermissionsMiddlewareConfig = {
+  allowedRoles: UserRoles[];
+  allowedDepartments: UserDepartments[];
+};
+
+export type PermissionsMiddleware = (config: PermissionsMiddlewareConfig) => Handler;
 
 export interface AppRouteAuthConfig {
   authMiddleware: Handler;
