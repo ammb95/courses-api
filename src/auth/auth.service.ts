@@ -11,10 +11,10 @@ import { SchemaValidator } from "../utils/schema-validator";
 
 export class AuthService {
   constructor(
-    private readonly usersRepository: UsersRepository,
-    private readonly tokenManager: TokenManager,
-    private readonly passwordManager: PasswordManager,
-    private readonly schemaValidator: SchemaValidator
+    private usersRepository: UsersRepository,
+    private tokenManager: TokenManager,
+    private passwordManager: PasswordManager,
+    private schemaValidator: SchemaValidator
   ) {}
 
   private validateCredentials = async ({ username, password }: LoginDto): Promise<UserModel> => {

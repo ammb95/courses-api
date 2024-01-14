@@ -15,10 +15,7 @@ import { randomUUID } from "crypto";
 import { PasswordManager } from "../auth/utils/password-manager";
 
 export class UsersRepository {
-  constructor(
-    private readonly dbClient: DynamoDBClient,
-    private readonly passwordManager: PasswordManager
-  ) {}
+  constructor(private dbClient: DynamoDBClient, private passwordManager: PasswordManager) {}
 
   public getByUsername = async (username: string): Promise<UserModel> => {
     try {

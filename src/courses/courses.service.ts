@@ -6,8 +6,8 @@ import { createCourseSchema, editCourseSchema } from "./models/courses.schemas";
 
 export class CoursesService {
   constructor(
-    private readonly courseRepository: CoursesRepository,
-    private readonly schemaValidator: SchemaValidator
+    private courseRepository: CoursesRepository,
+    private schemaValidator: SchemaValidator
   ) {}
 
   public getAll = async (): Promise<CourseModel[]> => {

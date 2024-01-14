@@ -114,7 +114,7 @@ Examples
 
 The only exception is:
 
-- Node app is run standalone with `npm run start`, and database is run with Docker. However, even with this approach, both the database and docker container must be within the same evironment (e.g. both on Windows or both on Linux/maxOS)
+- Node app is run standalone with `npm run start`, and database is run with Docker. However, even with this approach, both the database and docker container must be within the same evironment (e.g. both on Windows or both on Linux/macOS)
 ```
 
 ### Set Environment Variables
@@ -173,7 +173,7 @@ npm install
 npm i -g ts-node
 ```
 
-#### 2.1 To run both the app and the database together, run:
+#### 1.2 To run both the app and the database together, run:
 
 ```bash
 npm run compose

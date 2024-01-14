@@ -4,7 +4,7 @@ import { CreateUserDto } from "./models/users.dtos";
 import { HttpStatusCodes } from "../enums/http-status-codes.enum";
 
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private usersService: UsersService) {}
 
   public create: Handler = async (req, res, next): Promise<void> => {
     const newUser: CreateUserDto = req.body;

@@ -6,7 +6,7 @@ import { ErrorCodes } from "../enums/error.codes.enum";
 import { Logger } from "../../utils/logger";
 
 export class ErrorHandler {
-  constructor(private readonly logger: Logger) {}
+  constructor(private logger: Logger) {}
 
   private getErrorStatusCode = (error: BaseError): HttpStatusCodes => {
     return ERROR_CODES_TO_HTTP_STATUSES[error.code];

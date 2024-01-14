@@ -4,7 +4,7 @@ import { HttpMethods } from "../enums/http-methods.enum";
 import { LogMessageFormatter } from "./log-message-formatter";
 
 export class Logger {
-  private readonly logMessageFormatter = new LogMessageFormatter();
+  private logMessageFormatter = new LogMessageFormatter();
 
   public logError = (error: BaseError): void => {
     console.log(this.logMessageFormatter.getErrorLogMessage(error));
@@ -28,7 +28,7 @@ export class Logger {
     next();
   };
 
-  logMessage = (message: string): void => {
+  public logMessage = (message: string): void => {
     console.log(this.logMessageFormatter.getServerLogMessage(message));
   };
 }

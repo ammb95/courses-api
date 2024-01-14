@@ -7,10 +7,7 @@ import { DatabaseError } from "../error-utils/custom-errors/database.error";
 import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 
 export class UsersService {
-  constructor(
-    private readonly userRepository: UsersRepository,
-    private readonly schemaValidator: SchemaValidator
-  ) {}
+  constructor(private userRepository: UsersRepository, private schemaValidator: SchemaValidator) {}
 
   public getByUsername = async (username: string): Promise<UserModel | undefined> => {
     try {

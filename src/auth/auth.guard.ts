@@ -10,9 +10,9 @@ export type PermissionsMiddlewareConfig = {
   allowedDepartments: UserDepartments[];
 };
 
-export type PermissionsMiddleware = (config: PermissionsMiddlewareConfig) => Handler;
+export type PermissionsMiddlewareFactory = (config: PermissionsMiddlewareConfig) => Handler;
 export class AuthGuard {
-  constructor(private readonly tokenManager: TokenManager) {}
+  constructor(private tokenManager: TokenManager) {}
   public authenticate: Handler = async (req, res, next): Promise<void> => {
     try {
       const token = req.headers.authorization;
@@ -38,7 +38,7 @@ export class AuthGuard {
     }
   };
 
-  public checkPermissions: PermissionsMiddleware = (config: PermissionsMiddlewareConfig) => {
+  public checkPermissions: PermissionsMiddlewareFactory = (config: PermissionsMiddlewareConfig) => {
     return (req, res, next) => {
       try {
         const token = req.headers.authorization as string;

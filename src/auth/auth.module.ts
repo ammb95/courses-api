@@ -9,7 +9,6 @@ import { SchemaValidator } from "../utils/schema-validator";
 import { RoutingManager } from "../utils/routing-manager";
 import { AUTH_ROUTE_NAMESPACE } from "./auth.constants";
 import { Logger } from "../utils/logger";
-import { log } from "console";
 
 export interface AuthModule {
   authGuard: AuthGuard;

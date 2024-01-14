@@ -20,7 +20,7 @@ import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 import { randomUUID } from "crypto";
 
 export class CoursesRepository {
-  constructor(private readonly dbClient: DynamoDBClient) {}
+  constructor(private dbClient: DynamoDBClient) {}
 
   public getAll = async (): Promise<CourseModel[]> => {
     try {
@@ -92,18 +92,21 @@ export class CoursesRepository {
     }
   };
 
-  // The goal of this function is to help the `edit` method to identify
-  // which fields of the given resource should be updated based on the fields provided
-  // by the user in the request.
-  // For example: if the user sends only `title` and `topic`, those are the only fields
-  // that should be updated. This function will build the database request config params
-  // based on this information
+  /* 
+    The goal of this function is to help the `edit` method to identify
+    which fields of the given resource should be updated based on the fields provided
+    by the user in the request.
+    For example: if the user sends only `title` and `topic`, those are the only fields
+    that should be updated. This function will build the database request config params
+    based on this information 
+  */
   private getUpdateConfig = (editCourseDto: EditCourseDto) => {
     const possibleAttributes: (keyof EditCourseDto)[] = [
       "title",
       "topic",
       "startDate",
       "learningFormats",
+      "bestseller",
     ];
 
     const updateExpressionParts: string[] = [];
@@ -115,6 +118,7 @@ export class CoursesRepository {
 
       if (attributeValue !== undefined) {
         const prefix = updateExpressionParts.length === 0 ? "SET " : "";
+
         updateExpressionParts.push(`${prefix}${attribute} = :${attribute}`);
         expressionAttributeValues[`:${attribute}`] = attributeValue;
       }

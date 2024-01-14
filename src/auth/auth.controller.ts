@@ -6,7 +6,7 @@ import { ErrorCodes } from "../error-utils/enums/error.codes.enum";
 import { HttpStatusCodes } from "../enums/http-status-codes.enum";
 
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   login: Handler = async (req, res, next): Promise<void> => {
     try {

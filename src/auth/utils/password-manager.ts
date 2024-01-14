@@ -7,7 +7,6 @@ export class PasswordManager {
   public hashPassword = async (password: string): Promise<string> => {
     try {
       return await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-      // return password;
     } catch (error) {
       throw new PasswordError({
         message: "Error Hashing Password",
@@ -18,7 +17,6 @@ export class PasswordManager {
 
   public comparePasswords = async (password: string, hashedPassword: string): Promise<boolean> => {
     try {
-      // const match = password === hashedPassword;
       const match = await bcrypt.compare(password, hashedPassword);
       if (!match) {
         throw new PasswordError({

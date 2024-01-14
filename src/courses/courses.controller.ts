@@ -4,7 +4,7 @@ import { CreateCourseDto, EditCourseDto } from "./models/courses.dtos";
 import { HttpStatusCodes } from "../enums/http-status-codes.enum";
 
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) {}
+  constructor(private coursesService: CoursesService) {}
 
   public getAll: Handler = async (req, res, next): Promise<void> => {
     try {

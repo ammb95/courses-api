@@ -40,10 +40,10 @@ type DBConfig = {
 };
 
 export class DBManager {
-  private readonly fileManager = new FileManager();
-  readonly dbClient: DynamoDBClient;
+  private fileManager = new FileManager();
+  dbClient: DynamoDBClient;
 
-  constructor(private readonly passwordManager: PasswordManager, private logger: Logger) {
+  constructor(private passwordManager: PasswordManager, private logger: Logger) {
     const config = this.getDBConfig();
     this.dbClient = new DynamoDBClient(config);
   }
