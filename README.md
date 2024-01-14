@@ -5,9 +5,7 @@
   - [ts-node](#aws-cli)
   - [AWS CLI](#aws-cli)
   - [Docker CLI](#docker-cli)
-
     - [What If I don't want to use Docker?](#what-if-i-dont-want-to-use-docker)
-
   - [IMPORTANT](#important)
   - [Set Environment Variables](#set-environment-variables)
 
@@ -18,7 +16,6 @@
   - [2. Standalone](#2-standalone)
 - [Routes](#routes)
 - [Table Creation and Population](#table-creation-and-population)
-
 - [Default Available Users](#default-available-users)
 
 ## Requirements
@@ -210,6 +207,8 @@ npm install
 #### 2.3. Run the database:
 
 ```bash
+# This is script only works with Docker. Please check 'What If I don't want to use Docker?' section if you want to run the database in another way.
+
 npm run db
 ```
 
